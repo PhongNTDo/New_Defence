@@ -1,5 +1,5 @@
 <h2 align="center">
-  <strong>IPIGuard</strong>: Developing Stronger Defenses Against Indirect Prompt Injection in LLM Agents
+  Developing Stronger Defenses Against Indirect Prompt Injection in LLM Agents
 </h2>
 
 <p align="center">
