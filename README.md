@@ -8,7 +8,7 @@
 
 ## Overview
 
-BFTGraphGuard is a continuation repo for IPIGuard-style tool dependency graph defenses against indirect prompt injection in LLM agents. This repo keeps the implementation and experiments we extend.
+This repo is a continuation repo for IPIGuard-style tool dependency graph defenses against indirect prompt injection in LLM agents. This repo keeps the implementation and experiments we extend.
 
 ## Upstream Resources
 
