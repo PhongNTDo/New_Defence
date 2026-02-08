@@ -89,7 +89,22 @@ def get_llm(provider: str, model: str) -> BasePipelineElement:
         client = cohere.Client()
         llm = CohereLLM(client, model)
     elif provider == "google":
-        vertexai.init(project=os.getenv("GCP_PROJECT"), location=os.getenv("GCP_LOCATION"))
+        project = (
+            os.getenv("GCP_PROJECT")
+            or os.getenv("GOOGLE_CLOUD_PROJECT")
+            or os.getenv("GCLOUD_PROJECT")
+        )
+        location = (
+            os.getenv("GCP_LOCATION")
+            or os.getenv("GOOGLE_CLOUD_LOCATION")
+            or os.getenv("GOOGLE_CLOUD_REGION")
+        )
+        if not project:
+            raise ValueError(
+                "Google provider requires a GCP project. Set GCP_PROJECT (or GOOGLE_CLOUD_PROJECT / GCLOUD_PROJECT) "
+                "and authenticate with `gcloud auth application-default login`."
+            )
+        vertexai.init(project=project, location=location)
         llm = GoogleLLM(model)
     elif provider == 'vllm':
         client = openai.OpenAI(

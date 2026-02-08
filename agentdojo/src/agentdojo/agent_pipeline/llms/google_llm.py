@@ -16,24 +16,32 @@ from agentdojo.types import ChatAssistantMessage, ChatMessage
 
 def _parameters_to_google(parameters: type[BaseModel]) -> dict[str, Any]:
     openapi_parameters = make_openapi_from_pydantic_model(parameters)  # type: ignore
+    return _sanitize_google_schema(openapi_parameters)
 
-    # Clean up properties
-    if "properties" in openapi_parameters:
-        for _, prop_value in openapi_parameters["properties"].items():
-            if "anyOf" in prop_value:
-                # Filter out null types from anyOf
-                non_null_types = [schema for schema in prop_value["anyOf"] if schema.get("type") != "null"]
 
-                if non_null_types:
-                    # If we have valid types, use the first one
-                    prop_value.clear()
-                    prop_value.update(non_null_types[0])
-                else:
-                    # Fallback to string if no valid types
-                    prop_value.clear()
-                    prop_value["type"] = "string"
+def _sanitize_google_schema(schema: Any) -> Any:
+    if isinstance(schema, dict):
+        if "anyOf" in schema:
+            non_null_types = [
+                s for s in schema.get("anyOf", []) if isinstance(s, dict) and s.get("type") != "null"
+            ]
+            chosen = non_null_types[0] if non_null_types else {"type": "string"}
+            merged = {k: v for k, v in schema.items() if k not in ("anyOf", "additionalProperties")}
+            merged.update(chosen)
+            schema = merged
 
-    return openapi_parameters
+        schema.pop("additionalProperties", None)
+
+        for key, value in list(schema.items()):
+            if isinstance(value, (dict, list)):
+                schema[key] = _sanitize_google_schema(value)
+
+        return schema
+
+    if isinstance(schema, list):
+        return [_sanitize_google_schema(item) for item in schema]
+
+    return schema
 
 
 def _function_to_google(f: Function) -> genai.FunctionDeclaration:

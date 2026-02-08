@@ -66,6 +66,8 @@ class ModelsEnum(StrEnum):
     """Gemini 1.5 Flash 002"""
     GEMINI_1_5_FLASH_001 = "gemini-1.5-flash-001"
     """Gemini 1.5 Flash 001"""
+    GEMINI_2_5_FLASH = "gemini-2.5-flash"
+    """Gemini 2.5 Flash"""
     HERMES_8B = "NousResearch/Hermes-3-Llama-3.1-8B"
     """Hermes 3 Llama-3.1-8B"""
     GRANITE_8B = "ibm-granite/granite-3.2-8b-instruct"
@@ -104,6 +106,7 @@ MODEL_PROVIDERS = {
     ModelsEnum.GEMINI_1_5_PRO_002: "google",
     ModelsEnum.GEMINI_1_5_FLASH_001: "google",
     ModelsEnum.GEMINI_1_5_FLASH_002: "google",
+    ModelsEnum.GEMINI_2_5_FLASH: "google",
     ModelsEnum.HERMES_8B: "nousresearch",
     ModelsEnum.GRANITE_8B: "ibm",
 }
@@ -141,6 +144,7 @@ MODEL_NAMES = {
     "gemini-1.5-pro-001": "AI model developed by Google",
     "gemini-1.5-flash-002": "AI model developed by Google",
     "gemini-1.5-flash-001": "AI model developed by Google",
+    "gemini-2.5-flash": "AI model developed by Google",
     "NousResearch/Hermes-3-Llama-3.1-8B": "AI assistant",
     "ibm-granite/granite-3.2-8b-instruct": "AI model developed by IBM",
 }
