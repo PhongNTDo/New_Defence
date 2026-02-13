@@ -1,4 +1,5 @@
 #!/bin/bash
+export OLLAMA_BASE_URL="${OLLAMA_BASE_URL:-http://localhost:11434/v1}"
 # agent_model="${AGENT_MODEL:-gpt-4o-mini-2024-07-18}"
 agent_model=gemini-2.5-flash
 attack_name="tool_knowledge"

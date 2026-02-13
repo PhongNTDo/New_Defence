@@ -113,6 +113,12 @@ def get_llm(provider: str, model: str) -> BasePipelineElement:
         )
         # llm = PromptingLLM(client, model)
         llm = OpenAILLM(client, model)
+    elif provider == "ollama":
+        client = openai.OpenAI(
+            api_key=os.getenv("OLLAMA_API_KEY", "ollama"),
+            base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1"),
+        )
+        llm = OpenAILLM(client, model)
     else:
         raise ValueError("Invalid provider")
     return llm
